@@ -14,6 +14,7 @@ from speed2audit.core.models import (
     PersonaProfile,
     Scorecard,
 )
+from speed2audit.core.report_exporter import export_session_to_markdown
 from speed2audit.ui.health import HealthChecker
 
 db = AuditDatabase()
@@ -90,6 +91,44 @@ async def on_chat_start():
     cl.user_session.set("step", "AWAITING_URL")
     await cl.Message(
         content="👉 **Para iniciar uma auditoria:** Por favor, informe a **URL do site da empresa** que vamos avaliar:"
+    ).send()
+
+
+@cl.action_callback("pause_audit")
+async def on_pause_audit(action: cl.Action):
+    audit_session: AuditSession = cl.user_session.get("audit_session")
+    if audit_session:
+        audit_session.status = AuditStatus.COMPLETED_SUCCESS
+        await finish_audit_session(audit_session, reason="Sessão pausada manualmente pelo operador.")
+
+
+async def finish_audit_session(session: AuditSession, reason: str = ""):
+    """Evaluate transcript, generate scorecard, export file and display report in chat."""
+    cl.user_session.set("step", "FINISHED")
+
+    await cl.Message(content=f"🏁 **Auditoria Concluída!** {reason}\n🤖 O **Auditor Agent** está gerando o diagnóstico e scorecard...").send()
+
+    scorecard: Scorecard = await auditor.evaluate_session(session)
+    session.scorecard = scorecard
+    db.save_session(session)
+
+    # Exibe scorecard no chat
+    scorecard_md = format_scorecard_markdown(scorecard)
+    await cl.Message(content=scorecard_md).send()
+
+    # Exporta arquivo de relatório completo
+    report_file_path = export_session_to_markdown(session)
+
+    elements = [
+        cl.File(
+            name=f"relatorio_auditoria_{session.session_id}.md",
+            path=str(report_file_path),
+            display="inline",
+        )
+    ]
+    await cl.Message(
+        content="📥 **Download do Relatório Completo (.md):**",
+        elements=elements,
     ).send()
 
 
@@ -187,15 +226,21 @@ async def on_message(message: cl.Message):
             content=f"💬 **[Shopper ({persona.full_name}) ➔ Alvo]:**\n> {decision.reply_text}"
         ).send()
 
+        actions = [
+            cl.Action(name="pause_audit", payload={"value": "pause"}, label="⏸️ Encerrar / Pausar Auditoria")
+        ]
         await cl.Message(
-            content="ℹ️ *O Shopper está aguardando respostas. Você pode digitar mensagens aqui a qualquer momento para intervir e direcionar a conversa.*"
+            content="⏳ **Aguardando resposta do vendedor...**\n*A conversa está sendo conduzida autonomamente pela IA.*",
+            actions=actions,
         ).send()
 
     elif step == "AUDITING":
-        # User intervention during live chat
-        audit_session: AuditSession = cl.user_session.get("audit_session")
-        if audit_session and audit_session.persona:
-            audit_session.persona.extra_instructions = (
-                f"{audit_session.persona.extra_instructions or ''} [Intervenção ao vivo: {text}]".strip()
-            )
-            await cl.Message(content=f"🧭 **Diretriz injetada no Shopper:** \"{text}\"").send()
+        # Guidance or pause command via chat
+        if text.lower() in ("pausar", "parar", "encerrar", "fim"):
+            audit_session: AuditSession = cl.user_session.get("audit_session")
+            if audit_session:
+                await finish_audit_session(audit_session, reason="Sessão finalizada por comando de texto.")
+        else:
+            await cl.Message(
+                content="ℹ️ *A auditoria está em execução autônoma. Para encerrar e emitir o relatório, clique em 'Encerrar / Pausar Auditoria' ou digite `pausar`.*"
+            ).send()
