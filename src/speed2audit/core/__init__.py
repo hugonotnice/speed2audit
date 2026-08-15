@@ -1,4 +1,4 @@
-"""Core models and database module for Speed2Audit."""
+"""Core models, database and exporters for Speed2Audit."""
 
 from speed2audit.core.database import AuditDatabase
 from speed2audit.core.models import (
@@ -9,6 +9,7 @@ from speed2audit.core.models import (
     PersonaProfile,
     Scorecard,
 )
+from speed2audit.core.report_exporter import export_session_to_markdown
 
 __all__ = [
     "AuditDatabase",
@@ -18,4 +19,5 @@ __all__ = [
     "MessageRole",
     "PersonaProfile",
     "Scorecard",
+    "export_session_to_markdown",
 ]
