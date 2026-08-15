@@ -1,4 +1,6 @@
-# 🕵️‍♂️ Speed2Audit
+<p align="center">
+  <img src="assets/banner.png" alt="Speed2Audit Banner" width="100%" style="border-radius: 12px;">
+</p>
 
 <p align="center">
   <strong>Autonomous Open-Core Mystery Shopper & Auditing Platform for WhatsApp Sales Channels</strong>
