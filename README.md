@@ -7,13 +7,13 @@
 </p>
 
 <p align="center">
+  <a href="https://hugonotnice.github.io/speed2audit/"><img src="https://img.shields.io/badge/Website-Live%20Demo-10b981.svg" alt="Website"></a>
   <a href="https://github.com/hugonotnice/speed2audit/actions/workflows/ci.yml"><img src="https://github.com/hugonotnice/speed2audit/actions/workflows/ci.yml/badge.svg" alt="CI Status"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg" alt="License: AGPL v3"></a>
   <a href="pyproject.toml"><img src="https://img.shields.io/badge/Python-3.12%20%7C%203.13-blue.svg" alt="Python 3.12+"></a>
   <a href="https://ai.google.dev/"><img src="https://img.shields.io/badge/LLM-Google%20Gemini%203.6%20Flash-4285F4.svg" alt="Google Gemini 3.6 Flash"></a>
   <a href="https://langchain-ai.github.io/langgraph/"><img src="https://img.shields.io/badge/Orchestration-LangGraph-orange.svg" alt="LangGraph"></a>
   <a href="https://astral.sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
-  <a href="https://phoenix.arize.com/"><img src="https://img.shields.io/badge/Telemetry-Arize%20Phoenix-purple.svg" alt="Arize Phoenix"></a>
 </p>
 
 ---
