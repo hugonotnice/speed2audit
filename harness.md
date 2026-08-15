@@ -8,7 +8,7 @@
 - **Name:** Speed2Audit (`hugonotnice/speed2audit`)
 - **Objective:** Open Core mystery shopper & auditing platform for WhatsApp (and future voice) customer service and sales channels.
 - **Detailed Specification:** See `PRD.md` at project root.
-- **Agent Framework:** `LangGraph` + `langchain-google-genai` (Google Gemini 2.5 Flash).
+- **Agent Framework:** `LangGraph` + `langchain-google-genai` (Google Gemini 3.6 Flash).
 - **Conversational Cockpit UI:** `Chainlit` (Human-in-the-Loop, Live Chat Mirror, Inline Markdown Report Export).
 - **WhatsApp Channel Gateway:** `WAHA` (WhatsApp HTTP API in Docker) consumed via `httpx` and Inbound Webhook parser.
 - **Observability:** `Arize Phoenix` (Local-first OpenTelemetry on `http://localhost:6006`) + `LangGraph Studio` (`langgraph dev`) + `LangSmith`.
