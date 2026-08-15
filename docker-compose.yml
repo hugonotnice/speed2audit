@@ -1,0 +1,51 @@
+services:
+  # ============================================================================
+  # WhatsApp Gateway (WAHA - WhatsApp HTTP API)
+  # ============================================================================
+  waha:
+    image: devlikeapro/waha:latest
+    container_name: speed2audit-waha
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - WHATSAPP_DEFAULT_ENGINE=WEBJS
+      - WAHA_LOG_LEVEL=info
+    volumes:
+      - waha_sessions:/app/.sessions
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/api/server/version || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ============================================================================
+  # Speed2Audit Cockpit & Multi-Agent Engine
+  # ============================================================================
+  speed2audit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: speed2audit-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+      - "6006:6006"
+    env_file:
+      - .env
+    environment:
+      - WAHA_BASE_URL=http://waha:3000
+      - CHAINLIT_HOST=0.0.0.0
+      - CHAINLIT_PORT=8000
+      - DATABASE_PATH=/app/data/speed2audit.db
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+    depends_on:
+      waha:
+        condition: service_healthy
+
+volumes:
+  waha_sessions:
+    driver: local

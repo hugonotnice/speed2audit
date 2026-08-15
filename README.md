@@ -32,37 +32,40 @@ It systematically benchmarks conversion readiness across 4 key vectors:
 
 ## 🚀 Quickstart (Under 2 Minutes)
 
-### 1. Prerequisites
-- Python `3.12+` or `3.13`
-- [`uv`](https://github.com/astral-sh/uv) (Fast Python package manager)
-- Docker (for local WAHA WhatsApp Gateway)
+### Option A: 🐳 1-Click Docker Compose (Recommended)
 
-### 2. Clone & Install
+Run everything (WhatsApp Gateway + Cockpit UI + AI Engine) with a single command:
+
 ```bash
+# 1. Clone repository
 git clone https://github.com/hugonotnice/speed2audit.git
 cd speed2audit
 
-# Install all dependencies instantly with uv
-uv sync --all-groups
-```
-
-### 3. Setup Environment
-```bash
+# 2. Configure Gemini API key
 cp .env.example .env
 # Edit .env and paste your GEMINI_API_KEY
+
+# 3. Start everything
+docker compose up -d
 ```
 
-### 4. Start WhatsApp Gateway (WAHA)
+- 📱 **WhatsApp QR Pairing:** Open `http://localhost:3000/dashboard` to pair your test phone.
+- 🕵️‍♂️ **Speed2Audit Cockpit:** Open `http://localhost:8000` to launch audits!
+
+---
+
+### Option B: 🐍 Local Python with `uv` (For Developers)
+
 ```bash
+# 1. Install dependencies
+uv sync --all-groups
+
+# 2. Start WAHA in background
 docker run -d --name waha -p 3000:3000 devlikeapro/waha
-```
-> Scan the WhatsApp QR code at `http://localhost:3000/dashboard` to pair your auditing device.
 
-### 5. Launch the Speed2Audit Cockpit
-```bash
+# 3. Launch Chainlit Cockpit
 uv run chainlit run src/speed2audit/app.py -w
 ```
-Open your browser at **`http://localhost:8000`** and start your first audit!
 
 ---
 
