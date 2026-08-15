@@ -1,6 +1,6 @@
 # Speed2Audit - Development Harness & Architecture Blueprint
 
-> **Notice for AGY / Gemini CLI:** This document defines the execution harness, macro-phases, and finalized architectural decisions for building Speed2Audit. Detailed functional specifications are in `PRD.md`.
+> **Notice for AGY / Gemini CLI / Aider:** This document defines the execution harness, macro-phases, and finalized architectural decisions for building Speed2Audit. Detailed functional specifications are in `PRD.md`.
 
 ---
 
@@ -15,6 +15,13 @@
 - **Storage / Persistence:** `SQLite` (`speed2audit.db`).
 - **Execution Model:** Local-First (runs on user infrastructure, local web dashboard, user-provided `GEMINI_API_KEY`).
 - **License:** AGPLv3.
+
+---
+
+## Spec-Driven Development (Governance)
+- **Aider Architect Mode:** O desenvolvimento e a escrita de código devem ser estritamente conduzidos pelo **Aider** no modo `--architect`.
+- **Fonte Absoluta da Verdade (Read-Only Specs):** A IA nunca deve codificar "no escuro". Os arquivos `PRD.md`, `harness.md` e `GEMINI.md` são a fonte absoluta da verdade e devem ser passados como arquivos de leitura (`--read`) para o Aider.
+- **Validação Automatizada por Testes:** Nenhuma funcionalidade ou módulo deve ser considerado concluído sem passar no comando de teste automatizado configurado via `--test-cmd "uv run pytest"`.
 
 ---
 
