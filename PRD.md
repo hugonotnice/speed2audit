@@ -55,8 +55,20 @@ Speed2Audit is organized into three distinct, decoupled modules:
 
 ---
 
-### 3.2 Módulo B: O Cockpit (Conversational Control Plane)
-The Cockpit is built with **Chainlit** and provides a fully interactive, text-driven conversational UX for running audits with real-time feedback and Human-in-the-Loop (HITL) overrides.
+### 3.2 Módulo B: O Cockpit (Chainlit)
+O Cockpit opera como a central de controle conversacional unificada:
+1. **Health Check Automático na Inicialização:** Verifica status do WAHA, QR Code e `GEMINI_API_KEY`.
+2. **Setup Conversacional:** O usuário fornece a URL do site da empresa a ser auditada.
+3. **Análise & Persona Generation:** O agente raspa o site, detecta o idioma e o tom ideal (B2B/B2C), e gera a persona.
+4. **Human-in-the-Loop (HITL Pré-Sessão):** O usuário aprova ou ajusta as instruções da persona antes de iniciar.
+5. **Execução Autônoma:** O usuário informa o número do WhatsApp e autoriza o início. A partir daí, o Shopper conduz a conversa autonomamente via Webhook. O usuário pode pausar/encerrar a sessão a qualquer momento.
+6. **Espelho com Telemetria Visual:** Exibe status em tempo real, incluindo indicador "Aguardando resposta..." com cronômetro de espera do vendedor.
+
+### 3.3 Módulo C: Relatório Final & Persistência (Integrado ao Cockpit)
+Ao concluir a auditoria (por atingimento de meta, limite de turnos ou encerramento):
+1. **Scorecard Visual:** O Auditor Agent gera o diagnóstico com notas (0 a 10) e telemetria de FRT no chat.
+2. **Arquivo de Relatório:** É gerado um arquivo de relatório estruturado (`.md` / `.json`) para download direto no chat.
+3. **Persistência SQLite:** Histórico e transcrições ficam gravados em `speed2audit.db`.
 
 ```mermaid
 flowchart TD
