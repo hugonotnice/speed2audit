@@ -65,3 +65,6 @@ reports/
 audit_runs/
 data/
 *.db
+.langgraph_api/
+chainlit.md
+dependencias
