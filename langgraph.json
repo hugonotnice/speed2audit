@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "speed2audit": "./src/speed2audit/graph.py:create_audit_graph"
+  },
+  "env": ".env"
+}

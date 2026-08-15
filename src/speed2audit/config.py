@@ -28,3 +28,7 @@ MAX_HUMAN_DELAY_SECONDS: float = 40.0
 # Safety Turn Limits
 MAX_CONVERSATION_TURNS: int = 10
 ABANDONMENT_TIMEOUT_MINUTES: int = 120
+
+# Observability & Tracing (Arize Phoenix - Local)
+PHOENIX_ENABLE: bool = os.getenv("PHOENIX_ENABLE", "true").lower() in ("true", "1", "yes")
+PHOENIX_COLLECTOR_ENDPOINT: str = os.getenv("PHOENIX_COLLECTOR_ENDPOINT", "http://127.0.0.1:6006")

@@ -15,6 +15,7 @@ from speed2audit.core.models import (
     Scorecard,
 )
 from speed2audit.core.report_exporter import export_session_to_markdown
+from speed2audit.telemetry import init_local_telemetry
 from speed2audit.ui.health import HealthChecker
 
 db = AuditDatabase()
@@ -23,6 +24,9 @@ scraper = ContextScraper()
 persona_generator = PersonaGenerator()
 shopper = ShopperAgent(waha_client=waha_client)
 auditor = AuditorAgent()
+
+# Initialize local-first Phoenix tracing on localhost:6006
+telemetry_url = init_local_telemetry()
 
 
 def format_scorecard_markdown(scorecard: Scorecard) -> str:
@@ -62,8 +66,14 @@ async def on_chat_start():
     cl.user_session.set("step", "HEALTH_CHECK")
     cl.user_session.set("session_id", str(uuid.uuid4())[:8])
 
+    telemetry_notice = (
+        f"\n*🔭 Painel de Telemetria Local (Arize Phoenix):* [{telemetry_url}]({telemetry_url})"
+        if telemetry_url
+        else ""
+    )
+
     await cl.Message(
-        content="## 🕵️‍♂️ Bem-vindo ao **Speed2Audit Cockpit**\n*Auditoria autônoma de atendimento e vendas no WhatsApp.*"
+        content=f"## 🕵️‍♂️ Bem-vindo ao **Speed2Audit Cockpit**\n*Auditoria autônoma de atendimento e vendas no WhatsApp.*{telemetry_notice}"
     ).send()
 
     # Módulo A: Health Check
