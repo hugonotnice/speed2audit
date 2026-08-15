@@ -1,4 +1,5 @@
 import re
+
 import httpx
 from bs4 import BeautifulSoup
 from pydantic import BaseModel
@@ -48,7 +49,9 @@ class ContextScraper:
             meta_desc = meta_tag["content"].strip()
 
         # Remove irrelevant tags
-        for element in soup(["script", "style", "noscript", "svg", "header", "nav", "footer", "iframe"]):
+        for element in soup(
+            ["script", "style", "noscript", "svg", "header", "nav", "footer", "iframe"]
+        ):
             element.decompose()
 
         # Extract text blocks

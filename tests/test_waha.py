@@ -1,6 +1,7 @@
+import httpx
 import pytest
 import respx
-import httpx
+
 from speed2audit.channels.waha import WAHAClient, WAHASessionStatus
 
 
@@ -40,8 +41,7 @@ async def test_waha_client_send_text_message():
         )
 
         resp = await client.send_text(
-            chat_id="5511999998888@c.us",
-            text="Hello, I need pricing information."
+            chat_id="5511999998888@c.us", text="Hello, I need pricing information."
         )
 
         assert resp["id"] == "msg_123"

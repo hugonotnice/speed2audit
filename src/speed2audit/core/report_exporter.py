@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from speed2audit.core.models import AuditSession, MessageRole
 
 
@@ -25,21 +26,35 @@ def export_session_to_markdown(session: AuditSession, output_dir: str = "reports
     persona_pain = persona.core_pain_point if persona else "N/A"
     persona_budget = persona.budget_range or "Sob consulta" if persona else "N/A"
 
-    strengths = "\n".join([f"- ✅ {s}" for s in scorecard.key_strengths]) if scorecard and scorecard.key_strengths else "- N/A"
-    improvements = "\n".join([f"- ⚠️ {i}" for i in scorecard.areas_for_improvement]) if scorecard and scorecard.areas_for_improvement else "- N/A"
+    strengths = (
+        "\n".join([f"- ✅ {s}" for s in scorecard.key_strengths])
+        if scorecard and scorecard.key_strengths
+        else "- N/A"
+    )
+    improvements = (
+        "\n".join([f"- ⚠️ {i}" for i in scorecard.areas_for_improvement])
+        if scorecard and scorecard.areas_for_improvement
+        else "- N/A"
+    )
     summary = scorecard.executive_summary if scorecard else "N/A"
 
     # Build transcript section
     transcript_lines = []
     for t in session.turns:
         speaker = "Shopper" if t.role == MessageRole.SHOPPER else "Atendente"
-        latency = f" *(Latência: {t.latency_seconds_since_last:.1f}s)*" if t.latency_seconds_since_last else ""
+        latency = (
+            f" *(Latência: {t.latency_seconds_since_last:.1f}s)*"
+            if t.latency_seconds_since_last
+            else ""
+        )
         transcript_lines.append(f"**[{speaker}]**{latency}: {t.content}\n")
 
-    transcript_str = "\n".join(transcript_lines) if transcript_lines else "*(Nenhuma mensagem registrada)*"
+    transcript_str = (
+        "\n".join(transcript_lines) if transcript_lines else "*(Nenhuma mensagem registrada)*"
+    )
 
     markdown_content = f"""# 📊 Speed2Audit - Relatório de Auditoria
-*Gerado em: {session.created_at.strftime('%d/%m/%Y %H:%M:%S UTC')}*
+*Gerado em: {session.created_at.strftime("%d/%m/%Y %H:%M:%S UTC")}*
 *ID da Sessão: `{session.session_id}`*
 
 ---

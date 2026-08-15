@@ -1,6 +1,4 @@
-from datetime import datetime, timezone
-import pytest
-from speed2audit.channels.webhook import parse_waha_webhook_payload, WAHAInboundMessage
+from speed2audit.channels.webhook import WAHAInboundMessage, parse_waha_webhook_payload
 
 
 def test_parse_valid_waha_message_payload():

@@ -1,5 +1,7 @@
-import pytest
 from unittest.mock import AsyncMock, patch
+
+import pytest
+
 from speed2audit.channels.waha import WAHASessionStatus
 from speed2audit.ui.health import HealthChecker, HealthStatus
 
@@ -8,9 +10,14 @@ from speed2audit.ui.health import HealthChecker, HealthStatus
 async def test_health_checker_all_ok():
     checker = HealthChecker()
 
-    with patch("speed2audit.ui.health.WAHAClient.check_server_online", new_callable=AsyncMock) as mock_online, \
-         patch("speed2audit.ui.health.WAHAClient.get_session_status", new_callable=AsyncMock) as mock_status:
-
+    with (
+        patch(
+            "speed2audit.ui.health.WAHAClient.check_server_online", new_callable=AsyncMock
+        ) as mock_online,
+        patch(
+            "speed2audit.ui.health.WAHAClient.get_session_status", new_callable=AsyncMock
+        ) as mock_status,
+    ):
         mock_online.return_value = True
         mock_status.return_value = WAHASessionStatus.WORKING
 
@@ -26,9 +33,14 @@ async def test_health_checker_all_ok():
 async def test_health_checker_waha_offline():
     checker = HealthChecker()
 
-    with patch("speed2audit.ui.health.WAHAClient.check_server_online", new_callable=AsyncMock) as mock_online, \
-         patch("speed2audit.ui.health.WAHAClient.get_session_status", new_callable=AsyncMock) as mock_status:
-
+    with (
+        patch(
+            "speed2audit.ui.health.WAHAClient.check_server_online", new_callable=AsyncMock
+        ) as mock_online,
+        patch(
+            "speed2audit.ui.health.WAHAClient.get_session_status", new_callable=AsyncMock
+        ) as mock_status,
+    ):
         mock_online.return_value = False
         mock_status.return_value = WAHASessionStatus.UNKNOWN
 

@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta, timezone
-import pytest
 from unittest.mock import AsyncMock, patch
-from speed2audit.agents.auditor import AuditorAgent, AuditEvaluation
+
+import pytest
+
+from speed2audit.agents.auditor import AuditEvaluation, AuditorAgent
 from speed2audit.core.models import (
     AuditSession,
     AuditStatus,

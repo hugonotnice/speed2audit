@@ -1,11 +1,11 @@
-import pytest
 from unittest.mock import AsyncMock, patch
+
+import pytest
+
 from speed2audit.agents.shopper import ShopperAgent, ShopperDecision
 from speed2audit.core.models import (
     AuditSession,
     AuditStatus,
-    ConversationTurn,
-    MessageRole,
     PersonaProfile,
 )
 

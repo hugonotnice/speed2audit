@@ -1,6 +1,6 @@
-import json
 import sqlite3
 from pathlib import Path
+
 from speed2audit.config import DATABASE_PATH
 from speed2audit.core.models import AuditSession
 

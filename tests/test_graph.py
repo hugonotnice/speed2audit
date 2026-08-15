@@ -1,14 +1,11 @@
-import pytest
 from unittest.mock import AsyncMock, patch
-from speed2audit.agents.auditor import AuditEvaluation
-from speed2audit.agents.persona import PersonaGenerator
+
+import pytest
+
 from speed2audit.agents.scraper import ScrapedContext
 from speed2audit.agents.shopper import ShopperDecision
 from speed2audit.core.models import (
-    AuditSession,
     AuditStatus,
-    ConversationTurn,
-    MessageRole,
     PersonaProfile,
 )
 from speed2audit.graph import AuditState, create_audit_graph
@@ -50,10 +47,15 @@ async def test_audit_graph_execution_flow():
         has_reached_goal=False,
     )
 
-    with patch("speed2audit.graph.ContextScraper.scrape_url", new_callable=AsyncMock) as mock_scrape, \
-         patch("speed2audit.graph.PersonaGenerator.generate_persona", new_callable=AsyncMock) as mock_gen_p, \
-         patch("speed2audit.graph.ShopperAgent.generate_next_message", new_callable=AsyncMock) as mock_shop:
-
+    with (
+        patch("speed2audit.graph.ContextScraper.scrape_url", new_callable=AsyncMock) as mock_scrape,
+        patch(
+            "speed2audit.graph.PersonaGenerator.generate_persona", new_callable=AsyncMock
+        ) as mock_gen_p,
+        patch(
+            "speed2audit.graph.ShopperAgent.generate_next_message", new_callable=AsyncMock
+        ) as mock_shop,
+    ):
         mock_scrape.return_value = mock_scraped
         mock_gen_p.return_value = mock_persona
         mock_shop.return_value = mock_decision
@@ -63,5 +65,7 @@ async def test_audit_graph_execution_flow():
         assert state_after_scrape["scraped_context"].title == "Acme Fleet"
 
         # Run persona node
-        state_after_persona = await graph.nodes["persona_node"].ainvoke({**initial_state, **state_after_scrape})
+        state_after_persona = await graph.nodes["persona_node"].ainvoke(
+            {**initial_state, **state_after_scrape}
+        )
         assert state_after_persona["persona"].full_name == "Lucas Andrade"

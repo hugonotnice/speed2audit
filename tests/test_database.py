@@ -1,4 +1,5 @@
 import pytest
+
 from speed2audit.core.database import AuditDatabase
 from speed2audit.core.models import (
     AuditSession,

@@ -1,5 +1,7 @@
-import pytest
 from unittest.mock import AsyncMock, patch
+
+import pytest
+
 from speed2audit.agents.persona import PersonaGenerator
 from speed2audit.agents.scraper import ScrapedContext
 from speed2audit.core.models import PersonaProfile
@@ -26,9 +28,7 @@ async def test_persona_generator_creates_profile():
 
     generator = PersonaGenerator()
 
-    with patch.object(
-        generator, "_call_llm_structured", new_callable=AsyncMock
-    ) as mock_llm:
+    with patch.object(generator, "_call_llm_structured", new_callable=AsyncMock) as mock_llm:
         mock_llm.return_value = mock_profile
 
         profile = await generator.generate_persona(

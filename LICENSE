@@ -13,7 +13,7 @@ cooperation with the community in the case of network server software.
 
   The licenses for most software and other practical works are designed
 to take away your freedom to share and change the works.  By contrast,
-our general public licenses are intended to guarantee your freedom to
+our General Public Licenses are intended to guarantee your freedom to
 share and change all versions of a program--to make sure it remains free
 software for all its users.
 
@@ -29,28 +29,15 @@ with two steps: (1) assert copyright on the software, and (2) offer
 you this License which gives you legal permission to copy, distribute
 and/or modify the software.
 
-  A secondary benefit of defending all users' freedoms is that
-improvements made in alternate versions of the program, if they
-receive widespread use, become available for other developers to
-incorporate.  Many developers of free software are heartened and
-encouraged by the resulting cooperation.  However, in the case of
-software used on network servers, this result may fail to come about.
-The GNU General Public License permits making a modified version and
-letting the public access it on a server without ever releasing its
-source code to the public.
-
-  The GNU Affero General Public License is designed specifically to
-ensure that, in such cases, the modified source code becomes available
-to the community.  It requires the operator of a network server to
-provide the source code of the modified version running there to the
-users of that server.  Therefore, public use of a modified version, on
-a publicly accessible server, gives the public access to the source
-code of the modified version.
-
-  An older license, called the Affero General Public License and
-published by Affero, was designed to accomplish similar goals.  This is
-a different license, computed as a version of the GNU General Public
-License, but still designed to track the same goals.
+  A major difference between this version of the License and the GNU
+General Public License version 3 is that it specifically provides for
+running on network servers.  If you modify the Program, your modified
+version must prominently offer all users interacting with it remotely
+through a computer network (if your version supports such interaction)
+an opportunity to receive the Corresponding Source of your version by
+providing access to the Corresponding Source from a network server at
+no charge, through some standard or customary means of facilitating
+copying of software.
 
   The precise terms and conditions for copying, distribution and
 modification follow.
@@ -145,9 +132,8 @@ copyright on the Program, and are irrevocable provided the stated
 conditions are met.  This License explicitly affirms your unlimited
 permission to run the unmodified Program.  The output from running a
 covered work is covered by this License only if the output, given its
-content, constitutes a work based on the Program.  This License
-acknowledges your rights of fair use or other equivalent, as provided
-by copyright law.
+content, constitutes a covered work.  This License acknowledges your
+rights of fair use or other equivalent, as provided by copyright law.
 
   You may make, run and propagate covered works that you do not
 convey, without conditions so long as your license otherwise remains
@@ -384,9 +370,9 @@ of that license document, provided that the further restriction does
 not survive such relicensing or conveying.
 
   If you add terms to a covered work in accord with this section, you
-must place, in the relevant source files, a statement of the additional
-terms that apply to those files, or a notice indicating where to find
-the applicable terms.
+must place, in the relevant source files, a statement of the
+additional terms that apply to those files, or a notice indicating
+where to find the applicable terms.
 
   Additional terms, permissive or non-permissive, may be stated in the
 form of a separately written license, or stated as exceptions;
@@ -438,7 +424,7 @@ receives a license from the original licensors, to run, modify and
 propagate that work, subject to this License.  You are not responsible
 for enforcing compliance by third parties with this License.
 
-  An "entity transaction" is a transaction transferring control of an
+  An "entity transaction" is a transaction that transfers control of an
 organization, or substantially all assets of one, or subdividing an
 organization, or merging organizations.  If propagation of a covered
 work results from an entity transaction, each party to that
@@ -509,17 +495,18 @@ work and works based on it.
   A patent license is "discriminatory" if it does not include within
 the scope of its coverage, prohibits the exercise of, or is
 conditioned on the non-exercise of one or more of the rights that are
-specifically granted under this License.  You may not convey a covered
-work if you are a party to an arrangement with a third party that is
-in the business of distributing software, under which you make payment
-to the third party based on the extent of your activity of conveying
-the work, and under which the third party grants, to any of the
-parties who would receive the covered work from you, a discriminatory
-patent license (a) in connection with copies of the covered work
-conveyed by you (or copies made from those copies), or (b) primarily
-for and in connection with specific products or compilations that
-contain the covered work, unless you entered into that arrangement,
-or that patent license was granted, prior to 28 March 2007.
+specifically granted under this License.  You may not convey a
+covered work if you are a party to an arrangement with a third party
+that is in the business of distributing software, under which you make
+payment to the third party based on the extent of your activity of
+conveying the work, and under which the third party grants, to any of
+the parties who would receive the covered work from you, a
+discriminatory patent license (a) in connection with copies of the
+covered work conveyed by you (or copies made from those copies), or
+(b) primarily for and in connection with specific products or
+compilations that contain the covered work, unless you entered into
+that arrangement, or that patent license was granted, prior to 28
+March 2007.
 
   Nothing in this License shall be construed as excluding or limiting
 any implied license or other defenses to infringement that may
@@ -566,18 +553,18 @@ will be similar in spirit to the present version, but may differ in detail to
 address new problems or concerns.
 
   Each version is given a distinguishing version number.  If the
-Program specifies that a certain numbered version of the GNU Affero General
-Public License "or any later version" applies to it, you have the option
-of following the terms and conditions either of that numbered version or
-of any later version published by the Free Software Foundation.  If the
-Program does not specify a version number of the GNU Affero General Public
-License, you may choose any version ever published by the Free Software
-Foundation.
+Program specifies that a certain numbered version of the GNU Affero
+General Public License "or any later version" applies to it, you have
+the option of following the terms and conditions either of that
+numbered version or of any later version published by the Free
+Software Foundation.  If the Program does not specify a version number
+of the GNU Affero General Public License, you may choose any version
+ever published by the Free Software Foundation.
 
   If the Program specifies that a proxy can decide which future
-versions of the GNU Affero General Public License can be used, that proxy's
-public statement of acceptance of a version permanently authorizes you
-to choose that version for the Program.
+versions of the GNU Affero General Public License can be used, that
+proxy's public statement of acceptance of a version permanently
+authorizes you to choose that version for the Program.
 
   Later license versions may give you additional or different
 permissions.  However, no additional obligations are imposed on any

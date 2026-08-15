@@ -1,10 +1,10 @@
-from pydantic import BaseModel, Field
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
+from pydantic import BaseModel, Field
+
 from speed2audit.config import GEMINI_API_KEY, GEMINI_MODEL
 from speed2audit.core.models import (
     AuditSession,
-    ConversationTurn,
     MessageRole,
     Scorecard,
 )
@@ -23,12 +23,20 @@ Return ONLY a structured AuditEvaluation.
 
 
 class AuditEvaluation(BaseModel):
-    clarity_score: float = Field(ge=0, le=10, description="Clarity and product knowledge score (0 to 10)")
-    objection_handling_score: float = Field(ge=0, le=10, description="Objection handling score (0 to 10)")
-    proactivity_score: float = Field(ge=0, le=10, description="Commercial proactivity score (0 to 10)")
+    clarity_score: float = Field(
+        ge=0, le=10, description="Clarity and product knowledge score (0 to 10)"
+    )
+    objection_handling_score: float = Field(
+        ge=0, le=10, description="Objection handling score (0 to 10)"
+    )
+    proactivity_score: float = Field(
+        ge=0, le=10, description="Commercial proactivity score (0 to 10)"
+    )
     executive_summary: str = Field(description="High-level diagnostic summary of the interaction.")
     key_strengths: list[str] = Field(default_factory=list, description="Top positive highlights.")
-    areas_for_improvement: list[str] = Field(default_factory=list, description="Actionable points to improve.")
+    areas_for_improvement: list[str] = Field(
+        default_factory=list, description="Actionable points to improve."
+    )
 
 
 class AuditorAgent:
@@ -52,8 +60,14 @@ class AuditorAgent:
         transcript_lines = []
         for t in session.turns:
             speaker = "Mystery Shopper" if t.role == MessageRole.SHOPPER else "Sales Attendant"
-            latency_info = f" (latency: {t.latency_seconds_since_last:.1f}s)" if t.latency_seconds_since_last else ""
-            transcript_lines.append(f"[{speaker} @ {t.timestamp.isoformat()}]{latency_info}: {t.content}")
+            latency_info = (
+                f" (latency: {t.latency_seconds_since_last:.1f}s)"
+                if t.latency_seconds_since_last
+                else ""
+            )
+            transcript_lines.append(
+                f"[{speaker} @ {t.timestamp.isoformat()}]{latency_info}: {t.content}"
+            )
 
         transcript_str = "\n".join(transcript_lines)
 
@@ -87,9 +101,7 @@ Full Conversation Transcript:
         turns = session.turns
 
         # Calculate FRT (latency between turn 1 and first seller response)
-        first_seller_turn = next(
-            (t for t in turns if t.role == MessageRole.TARGET_SELLER), None
-        )
+        first_seller_turn = next((t for t in turns if t.role == MessageRole.TARGET_SELLER), None)
         if first_seller_turn and turns:
             first_shopper_turn = turns[0]
             first_response_time = max(

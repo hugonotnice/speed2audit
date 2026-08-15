@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+
 from speed2audit.channels.waha import WAHAClient, WAHASessionStatus
 from speed2audit.config import GEMINI_API_KEY
 

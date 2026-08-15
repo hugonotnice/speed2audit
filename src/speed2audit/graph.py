@@ -1,12 +1,12 @@
 from typing import NotRequired, TypedDict
-from langgraph.graph import END, StateGraph
+
+from langgraph.graph import StateGraph
+
 from speed2audit.agents.auditor import AuditorAgent
 from speed2audit.agents.persona import PersonaGenerator
 from speed2audit.agents.scraper import ContextScraper, ScrapedContext
 from speed2audit.agents.shopper import ShopperAgent, ShopperDecision
-from speed2audit.channels.waha import WAHAClient
 from speed2audit.config import (
-    ABANDONMENT_TIMEOUT_MINUTES,
     MAX_CONVERSATION_TURNS,
 )
 from speed2audit.core.models import (
@@ -104,7 +104,9 @@ async def auditor_node(state: AuditState) -> dict:
         target_phone=state.get("target_phone") or "5511999999999@c.us",
         persona=state.get("persona"),
         turns=state.get("turns") or [],
-        status=AuditStatus.COMPLETED_SUCCESS if not state.get("stop_reason") or "limit" not in state.get("stop_reason", "").lower() else AuditStatus.COMPLETED_LIMIT_REACHED,
+        status=AuditStatus.COMPLETED_SUCCESS
+        if not state.get("stop_reason") or "limit" not in state.get("stop_reason", "").lower()
+        else AuditStatus.COMPLETED_LIMIT_REACHED,
     )
     scorecard: Scorecard = await auditor.evaluate_session(temp_session)
     return {

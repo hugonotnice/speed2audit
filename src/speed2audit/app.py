@@ -1,16 +1,16 @@
 import uuid
+
 import chainlit as cl
+
 from speed2audit.agents.auditor import AuditorAgent
 from speed2audit.agents.persona import PersonaGenerator
 from speed2audit.agents.scraper import ContextScraper, ScrapedContext
 from speed2audit.agents.shopper import ShopperAgent, ShopperDecision
-from speed2audit.channels.waha import WAHAClient, WAHASessionStatus
+from speed2audit.channels.waha import WAHAClient
 from speed2audit.core.database import AuditDatabase
 from speed2audit.core.models import (
     AuditSession,
     AuditStatus,
-    ConversationTurn,
-    MessageRole,
     PersonaProfile,
     Scorecard,
 )
@@ -109,14 +109,18 @@ async def on_pause_audit(action: cl.Action):
     audit_session: AuditSession = cl.user_session.get("audit_session")
     if audit_session:
         audit_session.status = AuditStatus.COMPLETED_SUCCESS
-        await finish_audit_session(audit_session, reason="Sessão pausada manualmente pelo operador.")
+        await finish_audit_session(
+            audit_session, reason="Sessão pausada manualmente pelo operador."
+        )
 
 
 async def finish_audit_session(session: AuditSession, reason: str = ""):
     """Evaluate transcript, generate scorecard, export file and display report in chat."""
     cl.user_session.set("step", "FINISHED")
 
-    await cl.Message(content=f"🏁 **Auditoria Concluída!** {reason}\n🤖 O **Auditor Agent** está gerando o diagnóstico e scorecard...").send()
+    await cl.Message(
+        content=f"🏁 **Auditoria Concluída!** {reason}\n🤖 O **Auditor Agent** está gerando o diagnóstico e scorecard..."
+    ).send()
 
     scorecard: Scorecard = await auditor.evaluate_session(session)
     session.scorecard = scorecard
@@ -153,14 +157,18 @@ async def on_message(message: cl.Message):
             text = "https://" + text
 
         cl.user_session.set("website_url", text)
-        msg_loading = await cl.Message(content=f"🔍 Analisando o site `{text}` e extraindo catálogo e ICP...").send()
+        msg_loading = await cl.Message(
+            content=f"🔍 Analisando o site `{text}` e extraindo catálogo e ICP..."
+        ).send()
 
         try:
             context: ScrapedContext = await scraper.scrape_url(text)
             cl.user_session.set("scraped_context", context)
 
             await msg_loading.update()
-            await cl.Message(content=f"✅ Site analisado: **{context.title or text}**\n\n🤖 Gerando Persona ideal de Lead qualificado...").send()
+            await cl.Message(
+                content=f"✅ Site analisado: **{context.title or text}**\n\n🤖 Gerando Persona ideal de Lead qualificado..."
+            ).send()
 
             persona: PersonaProfile = await persona_generator.generate_persona(context)
             cl.user_session.set("persona", persona)
@@ -168,9 +176,9 @@ async def on_message(message: cl.Message):
             persona_card = f"""### 👤 Persona Gerada para a Auditoria
 
 - **Nome:** {persona.full_name}
-- **Cargo / Empresa:** {persona.role} @ {persona.company_name or 'N/A'}
+- **Cargo / Empresa:** {persona.role} @ {persona.company_name or "N/A"}
 - **Dor / Demanda Principal:** {persona.core_pain_point}
-- **Faixa de Orçamento:** {persona.budget_range or 'Sob consulta'}
+- **Faixa de Orçamento:** {persona.budget_range or "Sob consulta"}
 - **Nível de Urgência:** {persona.urgency_level}
 """
             await cl.Message(content=persona_card).send()
@@ -178,29 +186,43 @@ async def on_message(message: cl.Message):
             res = await cl.AskActionMessage(
                 content="Deseja aprovar esta persona ou fazer ajustes?",
                 actions=[
-                    cl.Action(name="approve_persona", payload={"value": "approve"}, label="✅ Aprovar Persona"),
-                    cl.Action(name="edit_persona", payload={"value": "edit"}, label="✏️ Ajustar Instruções"),
+                    cl.Action(
+                        name="approve_persona",
+                        payload={"value": "approve"},
+                        label="✅ Aprovar Persona",
+                    ),
+                    cl.Action(
+                        name="edit_persona", payload={"value": "edit"}, label="✏️ Ajustar Instruções"
+                    ),
                 ],
             ).send()
 
             if res and res.get("payload", {}).get("value") == "edit":
                 cl.user_session.set("step", "AWAITING_PERSONA_EDIT")
-                await cl.Message(content="✍️ Digite quais ajustes ou instruções extras você quer incluir para este Lead:").send()
+                await cl.Message(
+                    content="✍️ Digite quais ajustes ou instruções extras você quer incluir para este Lead:"
+                ).send()
             else:
                 cl.user_session.set("step", "AWAITING_PHONE")
-                await cl.Message(content="📱 Informe o **número de WhatsApp do alvo** a ser auditado (com DDI e DDD, ex: `+55 11 99999-8888`):").send()
+                await cl.Message(
+                    content="📱 Informe o **número de WhatsApp do alvo** a ser auditado (com DDI e DDD, ex: `+55 11 99999-8888`):"
+                ).send()
 
         except Exception as e:
-            await cl.Message(content=f"❌ Erro ao analisar o site: `{str(e)}`. Por favor, verifique a URL e tente novamente.").send()
+            await cl.Message(
+                content=f"❌ Erro ao analisar o site: `{str(e)}`. Por favor, verifique a URL e tente novamente."
+            ).send()
 
     elif step == "AWAITING_PERSONA_EDIT":
         persona: PersonaProfile = cl.user_session.get("persona")
         persona.extra_instructions = text
         cl.user_session.set("persona", persona)
 
-        await cl.Message(content=f"✅ Instruções atualizadas: *\"{text}\"*").send()
+        await cl.Message(content=f'✅ Instruções atualizadas: *"{text}"*').send()
         cl.user_session.set("step", "AWAITING_PHONE")
-        await cl.Message(content="📱 Agora informe o **número de WhatsApp do alvo** a ser auditado (ex: `+55 11 99999-8888`):").send()
+        await cl.Message(
+            content="📱 Agora informe o **número de WhatsApp do alvo** a ser auditado (ex: `+55 11 99999-8888`):"
+        ).send()
 
     elif step == "AWAITING_PHONE":
         clean_phone = "".join(c for c in text if c.isdigit())
@@ -237,7 +259,11 @@ async def on_message(message: cl.Message):
         ).send()
 
         actions = [
-            cl.Action(name="pause_audit", payload={"value": "pause"}, label="⏸️ Encerrar / Pausar Auditoria")
+            cl.Action(
+                name="pause_audit",
+                payload={"value": "pause"},
+                label="⏸️ Encerrar / Pausar Auditoria",
+            )
         ]
         await cl.Message(
             content="⏳ **Aguardando resposta do vendedor...**\n*A conversa está sendo conduzida autonomamente pela IA.*",
@@ -249,7 +275,9 @@ async def on_message(message: cl.Message):
         if text.lower() in ("pausar", "parar", "encerrar", "fim"):
             audit_session: AuditSession = cl.user_session.get("audit_session")
             if audit_session:
-                await finish_audit_session(audit_session, reason="Sessão finalizada por comando de texto.")
+                await finish_audit_session(
+                    audit_session, reason="Sessão finalizada por comando de texto."
+                )
         else:
             await cl.Message(
                 content="ℹ️ *A auditoria está em execução autônoma. Para encerrar e emitir o relatório, clique em 'Encerrar / Pausar Auditoria' ou digite `pausar`.*"

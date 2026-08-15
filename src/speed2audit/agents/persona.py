@@ -1,5 +1,6 @@
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
+
 from speed2audit.agents.scraper import ScrapedContext
 from speed2audit.config import GEMINI_API_KEY, GEMINI_MODEL
 from speed2audit.core.models import PersonaProfile
@@ -44,7 +45,7 @@ Extracted Website Content:
 {context.extracted_text}
 
 Extra User Directive/Behavior:
-{extra_instructions or 'None. Create a high-intent standard qualified buyer.'}
+{extra_instructions or "None. Create a high-intent standard qualified buyer."}
 """
 
         messages = [

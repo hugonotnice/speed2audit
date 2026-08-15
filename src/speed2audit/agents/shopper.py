@@ -1,8 +1,10 @@
 import asyncio
 import random
-from pydantic import BaseModel, Field
+
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
+from pydantic import BaseModel, Field
+
 from speed2audit.channels.waha import WAHAClient
 from speed2audit.config import (
     GEMINI_API_KEY,
@@ -69,7 +71,11 @@ class ShopperAgent:
             speaker = "Shopper (You)" if t.role == MessageRole.SHOPPER else "Seller (Target)"
             history_lines.append(f"[{speaker}]: {t.content}")
 
-        history_str = "\n".join(history_lines) if history_lines else "(No previous turns yet - initiate the conversation)"
+        history_str = (
+            "\n".join(history_lines)
+            if history_lines
+            else "(No previous turns yet - initiate the conversation)"
+        )
 
         prompt_content = f"""Assigned Persona Profile:
 {persona_info}
@@ -81,7 +87,7 @@ Conversation History:
 {history_str}
 
 Latest Seller Message:
-{last_seller_message or '(Starting conversation now)'}
+{last_seller_message or "(Starting conversation now)"}
 """
 
         messages = [

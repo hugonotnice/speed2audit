@@ -1,5 +1,7 @@
 from datetime import datetime, timezone
+
 import pytest
+
 from speed2audit.core.models import (
     AuditSession,
     AuditStatus,

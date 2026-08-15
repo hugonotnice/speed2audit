@@ -1,5 +1,7 @@
 from enum import Enum
+
 import httpx
+
 from speed2audit.config import WAHA_API_KEY, WAHA_BASE_URL, WAHA_SESSION
 
 
@@ -53,7 +55,11 @@ class WAHAClient:
                     return WAHASessionStatus.UNKNOWN
                 data = res.json()
                 raw_status = data.get("status", "").upper()
-                return WAHASessionStatus(raw_status) if raw_status in WAHASessionStatus.__members__ else WAHASessionStatus.UNKNOWN
+                return (
+                    WAHASessionStatus(raw_status)
+                    if raw_status in WAHASessionStatus.__members__
+                    else WAHASessionStatus.UNKNOWN
+                )
         except Exception:
             return WAHASessionStatus.UNKNOWN
 

@@ -1,5 +1,7 @@
 import logging
+
 import phoenix as px
+
 from speed2audit.config import PHOENIX_ENABLE
 
 logger = logging.getLogger(__name__)

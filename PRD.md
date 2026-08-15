@@ -186,6 +186,7 @@ from datetime import datetime
 from enum import Enum
 from pydantic import BaseModel, Field
 
+
 class AuditStatus(str, Enum):
     INITIALIZING = "INITIALIZING"
     SCRAPING = "SCRAPING"
@@ -196,6 +197,7 @@ class AuditStatus(str, Enum):
     COMPLETED_LIMIT_REACHED = "COMPLETED_LIMIT_REACHED"
     FAILED = "FAILED"
 
+
 class PersonaProfile(BaseModel):
     full_name: str
     company_name: str | None = None
@@ -205,10 +207,12 @@ class PersonaProfile(BaseModel):
     urgency_level: str = "High"
     extra_instructions: str | None = None
 
+
 class MessageRole(str, Enum):
     SHOPPER = "SHOPPER"
     TARGET_SELLER = "TARGET_SELLER"
     SYSTEM = "SYSTEM"
+
 
 class ConversationTurn(BaseModel):
     turn_index: int
@@ -216,6 +220,7 @@ class ConversationTurn(BaseModel):
     content: str
     timestamp: datetime = Field(default_factory=datetime.utcnow)
     latency_seconds_since_last: float | None = None
+
 
 class Scorecard(BaseModel):
     first_response_time_seconds: float
@@ -227,6 +232,7 @@ class Scorecard(BaseModel):
     executive_summary: str
     key_strengths: list[str]
     areas_for_improvement: list[str]
+
 
 class AuditSession(BaseModel):
     session_id: str

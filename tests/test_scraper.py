@@ -1,6 +1,7 @@
+import httpx
 import pytest
 import respx
-import httpx
+
 from speed2audit.agents.scraper import ContextScraper, ScrapedContext
 
 
@@ -27,9 +28,7 @@ async def test_scraper_extracts_clean_content():
     scraper = ContextScraper()
 
     with respx.mock(base_url="https://acmefleet.com") as respx_mock:
-        respx_mock.get("/").mock(
-            return_value=httpx.Response(200, text=html_sample)
-        )
+        respx_mock.get("/").mock(return_value=httpx.Response(200, text=html_sample))
 
         context: ScrapedContext = await scraper.scrape_url("https://acmefleet.com")
 
@@ -38,7 +37,10 @@ async def test_scraper_extracts_clean_content():
         assert "Fleet Management" in context.extracted_text
         assert "Plans and Pricing" in context.extracted_text
         # Ensure boilerplate is stripped
-        assert "Copyright 2026" not in context.extracted_text or "Fleet Management" in context.extracted_text
+        assert (
+            "Copyright 2026" not in context.extracted_text
+            or "Fleet Management" in context.extracted_text
+        )
 
 
 @pytest.mark.asyncio
@@ -46,9 +48,7 @@ async def test_scraper_handles_network_failure():
     scraper = ContextScraper()
 
     with respx.mock(base_url="https://invalid-site-999.com") as respx_mock:
-        respx_mock.get("/").mock(
-            return_value=httpx.Response(500, text="Internal Server Error")
-        )
+        respx_mock.get("/").mock(return_value=httpx.Response(500, text="Internal Server Error"))
 
         with pytest.raises(Exception):
             await scraper.scrape_url("https://invalid-site-999.com")
