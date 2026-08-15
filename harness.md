@@ -1,13 +1,18 @@
 # Speed2Audit - Development Harness & Architecture Blueprint
 
-> **Notice for AGY / Gemini CLI:** This document defines the execution harness, macro-phases, and constraints for building the Speed2Audit Open Core project. Refer to this file to guide architectural decisions step-by-step. Do NOT enforce third-party libraries (e.g., ORMs, UI frameworks, HTTP clients) without discussing trade-offs with the developer first.
+> **Notice for AGY / Gemini CLI:** This document defines the execution harness, macro-phases, and finalized architectural decisions for building Speed2Audit. Detailed functional specifications are in `PRD.md`.
 
 ---
 
 ## Project Core Context
 - **Name:** Speed2Audit (`hugonotnice/speed2audit`)
-- **Objective:** Open Core mystery shopper & auditing tool for text (and future voice) support channels.
-- **Agent Framework:** `google-adk` (Google Agent Development Kit in Python).
+- **Objective:** Open Core mystery shopper & auditing platform for WhatsApp (and future voice) customer service channels.
+- **Detailed Specification:** See `PRD.md` at project root.
+- **Agent Framework:** `LangGraph` + `langchain-google-genai` (Google Gemini 2.0 Flash).
+- **Conversational Cockpit UI:** `Chainlit` (Human-in-the-Loop & Live Streaming).
+- **WhatsApp Channel Gateway:** `WAHA` (WhatsApp HTTP API in Docker) consumed via `httpx`.
+- **Observability:** `Arize Phoenix` (Local OpenTelemetry tracing).
+- **Storage / Persistence:** `SQLite` (`speed2audit.db`).
 - **Execution Model:** Local-First (runs on user infrastructure, local web dashboard, user-provided `GEMINI_API_KEY`).
 - **License:** AGPLv3.
 
@@ -15,60 +20,51 @@
 
 ## Macro-Phase Roadmap
 
-### Macro-Phase 1: Foundation & Scope Freeze (Current Phase)
-**Goal:** Establish repository hygiene, open-core boundaries, and minimum execution contract.
+### Macro-Phase 1: Foundation & Scope Freeze (Completed)
+**Goal:** Establish repository hygiene, architectural boundaries, and product requirements specification (`PRD.md`).
 
-* **Invariants (Fixed Decisions):**
-  - AGPLv3 License file.
-  - Core agent orchestrator powered by `google-adk`.
-  - Python 3.11+ environment with strict `.env` credential management.
-  - Direct target contact input (manual target configuration; no automated web scraping/browser driving in v1).
-* **Open Architectural Decisions (To be decided with AGY in terminal):**
-  - **Data Validation & Models:** Evaluate Python standard `dataclasses` vs `msgspec` vs `Pydantic`.
-  - **Local UI Framework:** Evaluate `FastHTML` vs `NiceGUI` vs `Gradio` for the simplest, most modern local dashboard.
-  - **HTTP/Networking Client:** Evaluate `httpx` vs `aiohttp` vs standard async solutions for messaging adapters.
+* **Invariants (Finalized Decisions):**
+  - Python 3.12+ environment managed with `uv`.
+  - Multi-agent topology: Scraper Agent $\rightarrow$ Persona Generator Agent $\rightarrow$ Shopper Agent $\rightarrow$ Auditor Agent.
+  - Conversational Cockpit built with `Chainlit` with Human-in-the-Loop approval for personas and live chat steering.
+  - WAHA-backed WhatsApp messaging with fixed 15–40s human delay + typing simulation.
+  - Local persistence via SQLite.
 
 ---
 
-### Macro-Phase 2: Core Engine & ADK Agent Implementation
-**Goal:** Implement the mystery shopper logic, prompt persona, and evaluation metrics.
+### Macro-Phase 2: Core Multi-Agent Engine & WAHA Integration
+**Goal:** Implement data models, WAHA client, and the 4 specialized agents in LangGraph.
 
-* **Phase 2.1 - Agent Persona & ADK Setup:**
-  - Define the `google-adk` Agent with a human-like mystery shopper persona tailored for text channels.
-  - Store prompt templates in editable local config files (`.json` or `.yaml`).
-* **Phase 2.2 - ADK Tools & Execution:**
-  - Build custom `google-adk` Tools for sending messages, receiving responses, and logging quote times.
-  - Define deterministic metric calculations: First Response Time (FRT), stage latencies, and quote speed.
-* **Phase 2.3 - Stop Condition & Storage:**
-  - Implement execution limits (e.g., maximum interaction turns or quote received event).
-  - Persist audit session logs to a lightweight local database chosen in Macro-Phase 1.
-
----
-
-### Macro-Phase 3: Local Dashboard & Developer Experience (DX)
-**Goal:** Provide a visual, single-command user experience for running audits and viewing reports.
-
-* **Phase 3.1 - Local Web Dashboard:**
-  - Build a lightweight UI to trigger new audits, view active chats, and inspect diagnostic reports.
-* **Phase 3.2 - Packaging & DX:**
-  - Provide a clean `Dockerfile` and `docker-compose.yml` for multi-stage, containerized runs.
-  - Ensure single-command start (e.g., `python -m speed2audit` or Docker startup).
+* **Phase 2.1 - Core Models & Storage:**
+  - Define Pydantic models (`PersonaProfile`, `ConversationTurn`, `Scorecard`, `AuditSession`).
+  - Initialize SQLite persistence layer.
+* **Phase 2.2 - Scraper & Persona Generator:**
+  - Build website crawling agent to extract business context and ICP.
+  - Build Persona generator with dynamic prompt templating.
+* **Phase 2.3 - Shopper Agent & WAHA Client:**
+  - Build asynchronous `WAHAClient` via `httpx` (send text, simulate typing presence, poll/receive inbound messages).
+  - Implement fixed 15–40s random human delay before message dispatch.
+* **Phase 2.4 - Auditor & Evaluator Agent:**
+  - LLM-as-a-judge prompt for calculating Speed to Lead (FRT), communication clarity, objection handling, and scorecard generation.
 
 ---
 
-### Macro-Phase 4: Go-To-Market & Cloud On-Ramp
-**Goal:** Launch on GitHub, drive community adoption, and route enterprise leads to the Cloud waitlist.
+### Macro-Phase 3: Conversational Cockpit (Chainlit) & Módulos A, B, C
+**Goal:** Deliver the interactive web experience.
 
-* **Phase 4.1 - Repository Showcase:**
-  - High-converting `README.md` with visual demo/GIF, AGPLv3 badge, and 1-line quickstart.
-* **Phase 4.2 - Public Launch:**
-  - Launch announcement posts on Hacker News (*Show HN*), `r/selfhosted`, `r/Python`, and `r/SaaS`.
-* **Phase 4.3 - Cloud Conversion:**
-  - Landing page capturing hosted/cloud waitlist leads for non-technical users.
+* **Phase 3.1 - Módulo A (Health Check):**
+  - Auto-verification of WAHA container, QR Code state, and `GEMINI_API_KEY` on startup.
+* **Phase 3.2 - Módulo B (O Cockpit):**
+  - Chainlit onboarding flow: URL input $\rightarrow$ Persona generation $\rightarrow$ HITL approval $\rightarrow$ WhatsApp number input $\rightarrow$ Live audit mirror with user intervention.
+* **Phase 3.3 - Módulo C (Audit Reports & History):**
+  - Dedicated screen to filter past sessions and inspect detailed scorecards and annotated transcripts.
 
 ---
 
-## Instructions for AGY / Gemini CLI
-1. Before proposing code for any Macro-Phase, verify which phase is currently active.
-2. Present architectural options with pros and cons before introducing new external dependencies.
-3. Prioritize lightweight, modern Python libraries with zero or minimal bloat.
+### Macro-Phase 4: Packaging & Launch
+**Goal:** Containerization, documentation, and open-core release.
+
+* **Phase 4.1 - Docker & DX:**
+  - `docker-compose.yml` orchestrating Speed2Audit + WAHA container in 1 command.
+* **Phase 4.2 - Public Showcase:**
+  - Visual README with GIF demo, quickstart guide, and AGPLv3 badge.
