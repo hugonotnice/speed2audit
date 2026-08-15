@@ -14,7 +14,7 @@ DATABASE_PATH: str = os.getenv("DATABASE_PATH", "speed2audit.db")
 
 # Google Gemini
 GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
-GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
 # WAHA (WhatsApp HTTP API)
 WAHA_BASE_URL: str = os.getenv("WAHA_BASE_URL", "http://localhost:3000")
