@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "speed2audit"
+version = "0.1.0"
+description = "Open-core mystery shopper and auditing platform for text and voice customer service channels."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "AGPL-3.0-or-later" }
+authors = [
+    { name = "Hugo Soares" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Communications",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/hugonotnice/speed2audit"
+Repository = "https://github.com/hugonotnice/speed2audit"
+Issues = "https://github.com/hugonotnice/speed2audit/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/speed2audit"]
