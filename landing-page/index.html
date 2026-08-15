@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speed2Audit — Autonomous WhatsApp Mystery Shopper</title>
+  <meta name="description" content="Local-first multi-agent AI mystery shopper platform for benchmarking customer support and sales teams on WhatsApp.">
+  <meta name="keywords" content="mystery shopper, whatsapp audit, speed to lead, ai agent, langgraph, gemini 3.6 flash, open source">
+  
+  <!-- OpenGraph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Speed2Audit — Autonomous WhatsApp Mystery Shopper">
+  <meta property="og:description" content="Evaluate response speed, product mastery, and objection handling on WhatsApp using autonomous AI agents.">
+  <meta property="og:image" content="assets/banner.png">
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient Light Background -->
+  <div class="bg-glow"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="#" class="nav-brand">
+        <span>🕵️‍♂️ Speed2Audit</span>
+        <span class="brand-badge">AGPL v3</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#architecture" class="nav-link">Architecture</a>
+        <a href="#quickstart" class="nav-link">Quickstart</a>
+        <a href="https://github.com/hugonotnice/speed2audit" target="_blank" rel="noopener noreferrer" class="btn-github">
+          <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-banner-container">
+        <img src="assets/banner.png" alt="Speed2Audit Dachshund Detective Mascot" class="hero-banner-img">
+      </div>
+
+      <h1 class="hero-title">
+        Audit WhatsApp Sales Channels with <br><span class="highlight">Autonomous AI Mystery Shoppers</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Deploy realistic buyer personas to benchmark Speed to Lead, objection resilience, and conversion readiness. Local-first, private, and 100% open-source.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#quickstart" class="btn-primary">
+          <span>🚀 Get Started in 2 Minutes</span>
+        </a>
+        <a href="https://github.com/hugonotnice/speed2audit" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          <span>View Source on GitHub</span>
+        </a>
+      </div>
+
+      <div class="badges-bar">
+        <img src="https://img.shields.io/badge/License-AGPL%20v3-blue.svg" alt="License">
+        <img src="https://img.shields.io/badge/Python-3.12%20%7C%203.13-blue.svg" alt="Python Version">
+        <img src="https://img.shields.io/badge/LLM-Google%20Gemini%203.6%20Flash-4285F4.svg" alt="Gemini">
+        <img src="https://img.shields.io/badge/Orchestration-LangGraph-orange.svg" alt="LangGraph">
+        <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff">
+      </div>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Key Evaluation Vectors</div>
+        <h2 class="section-title">What Speed2Audit Evaluates</h2>
+      </div>
+
+      <div class="grid-cards">
+        <div class="card">
+          <div class="card-icon">⏱️</div>
+          <h3 class="card-title">Speed to Lead (FRT)</h3>
+          <p class="card-desc">Accurately tracks First Response Time and dialogue turnaround down to the second.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🎯</div>
+          <h3 class="card-title">Answer Quality</h3>
+          <p class="card-desc">Tests seller product mastery, policy accuracy, and communication clarity under pressure.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🛡️</div>
+          <h3 class="card-title">Objection Handling</h3>
+          <p class="card-desc">Pushes back on pricing, competitor advantages, and friction to test sales resilience.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🏁</div>
+          <h3 class="card-title">Milestone Velocity</h3>
+          <p class="card-desc">Measures elapsed turns until meeting booked, quote delivered, or checkout URL provided.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Flow -->
+  <section id="architecture" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Decoupled Multi-Agent Topology</div>
+        <h2 class="section-title">How the Autonomous Engine Works</h2>
+      </div>
+
+      <div class="flow-container">
+        <div class="flow-grid">
+          <div class="flow-step">
+            <span class="step-number">Step 1</span>
+            <h3 class="step-title">🌐 Scraper Agent</h3>
+            <p class="step-desc">Crawls the company website to extract value propositions, catalog pricing, and ICP profile.</p>
+          </div>
+
+          <div class="flow-step">
+            <span class="step-number">Step 2</span>
+            <h3 class="step-title">🎭 Persona Generator</h3>
+            <p class="step-desc">Creates a tailored lead profile powered by Gemini 3.6 Flash, with full Human-in-the-Loop review.</p>
+          </div>
+
+          <div class="flow-step">
+            <span class="step-number">Step 3</span>
+            <h3 class="step-title">📱 Shopper Agent</h3>
+            <p class="step-desc">Conducts the WhatsApp chat via WAHA with realistic 15-40s humanization delays and typing presence.</p>
+          </div>
+
+          <div class="flow-step">
+            <span class="step-number">Step 4</span>
+            <h3 class="step-title">⚖️ Auditor Judge</h3>
+            <p class="step-desc">Analyzes complete conversation logs and outputs a structured diagnostic scorecard (0-10 scale).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quickstart Section -->
+  <section id="quickstart" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Instant Deployment</div>
+        <h2 class="section-title">Run Speed2Audit Locally</h2>
+      </div>
+
+      <div class="terminal-wrapper">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div class="terminal-tabs">
+            <button class="tab-btn active" data-tab="docker">🐳 Docker Compose</button>
+            <button class="tab-btn" data-tab="uv">🐍 Python (uv)</button>
+          </div>
+        </div>
+
+        <div class="terminal-body">
+          <button id="copy-btn" class="btn-copy">Copy</button>
+          <div id="code-display"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <strong>Speed2Audit</strong> — Licensed under <a href="https://github.com/hugonotnice/speed2audit/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="footer-link">GNU AGPLv3</a>. Local-first & Privacy-focused.
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/hugonotnice/speed2audit" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a>
+        <a href="https://github.com/hugonotnice/speed2audit/blob/main/PRD.md" target="_blank" rel="noopener noreferrer" class="footer-link">PRD</a>
+        <a href="https://github.com/hugonotnice/speed2audit/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="footer-link">Contributing</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
