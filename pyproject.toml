@@ -5,16 +5,15 @@ build-backend = "hatchling.build"
 [project]
 name = "speed2audit"
 version = "0.1.0"
-description = "Open-core mystery shopper and auditing platform for text and voice customer service channels."
+description = "Open-core mystery shopper and auditing platform for WhatsApp customer service and sales channels."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 license = { text = "AGPL-3.0-or-later" }
 authors = [
     { name = "Hugo Soares" }
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
     "Operating System :: OS Independent",
@@ -23,7 +22,17 @@ classifiers = [
     "Topic :: Software Development :: Quality Assurance",
     "Topic :: Software Development :: Testing",
 ]
-dependencies = []
+dependencies = [
+    "chainlit>=1.3.0",
+    "langgraph>=0.2.0",
+    "langgraph-checkpoint-sqlite>=2.0.0",
+    "langchain-google-genai>=2.0.0",
+    "httpx>=0.27.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.7.0",
+    "beautifulsoup4>=4.12.0",
+    "arize-phoenix>=4.0.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/hugonotnice/speed2audit"
